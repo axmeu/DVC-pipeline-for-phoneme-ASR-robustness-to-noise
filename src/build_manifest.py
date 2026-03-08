@@ -29,7 +29,7 @@ def build_manifest(lang, output_dir, audio_dir, split, max_samples=None):
         for i, example in enumerate(data):
             if max_samples is not None and i >= max_samples:
                 break
-
+                                                                                                                                                                                
             audio = example["audio"]
             audio_bytes = audio["bytes"]
 
@@ -37,15 +37,15 @@ def build_manifest(lang, output_dir, audio_dir, split, max_samples=None):
 
             # decode and wav writting
             signal, sr = sf.read(io.BytesIO(audio_bytes))
-            stem = os.path.splitext(audio["path"])[0]
-            wav_out = os.path.join(audio_dir, lang, stem + ".wav")
-            os.makedirs(os.path.dirname(wav_out), exist_ok=True)
+            stem = Path(audio["path"]).stem
+            wav_out = Path(audio_dir) / lang / f"{stem}.wav"
+            wav_out.parent.mkdir(parents=True, exist_ok=True)
             sf.write(wav_out, signal, sr)
 
             record = {
                 "utt_id":    f"{lang}_{stem}",
                 "lang":      lang,
-                "wav_path":  wav_out,
+                "wav_path":  str(wav_out),
                 "ref_text":  example["transcript"],
                 "ref_phon":  None,
                 "audio_md5": md5,
