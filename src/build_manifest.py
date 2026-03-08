@@ -8,6 +8,28 @@ from pathlib import Path
 import datasets
 import soundfile as sf
 from datasets import load_dataset
+import subprocess
+
+
+def extract_phonemes(transcript, lang):
+    convert_to_espeak = {"french": "fr",
+                     "german": "de",
+                     "dutch": "nl",
+                     "spanish": "es",
+                     "italian": "it",
+                     "portuguese": "pt",
+                     "polish": "pl"}
+
+    lang = convert_to_espeak[lang]
+
+    cmd_line = ["espeak-ng", "-v", lang, "-q", "--ipa"]
+    # espeak with *lang* voice with no sound output and ipa convention
+
+    phonemes = subprocess.run(cmd_line,
+                              input=transcript,
+                              capture_output=True,
+                              text=True)
+    return phonemes.stdout.strip()
 
 
 def build_manifest(lang, output_dir, audio_dir, split, max_samples=None):
@@ -42,12 +64,15 @@ def build_manifest(lang, output_dir, audio_dir, split, max_samples=None):
             wav_out.parent.mkdir(parents=True, exist_ok=True)
             sf.write(wav_out, signal, sr)
 
+            transcript = example["transcript"]
+            phonemes = extract_phonemes(transcript, lang)
+
             record = {
                 "utt_id":    f"{lang}_{stem}",
                 "lang":      lang,
                 "wav_path":  str(wav_out),
-                "ref_text":  example["transcript"],
-                "ref_phon":  None,
+                "ref_text":  transcript,
+                "ref_phon":  phonemes,
                 "audio_md5": md5,
                 "sr":        sr,
             }
