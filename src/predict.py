@@ -9,7 +9,7 @@ from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC
 
 
 def predict_manifest(input_manifest, output_dir, lang):
-    out_path = Path(output_dir) / lang / "predictions.jsonl"
+    out_path = Path(output_dir) / lang / "manifests" / "predictions.jsonl"
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
     processor = Wav2Vec2Processor.from_pretrained("facebook/wav2vec2-lv-60-espeak-cv-ft")
@@ -23,7 +23,8 @@ def predict_manifest(input_manifest, output_dir, lang):
 
         for line in m_in:
             example = json.loads(line)
-
+            print(f"Predicting on file {example["utt_id"]}..")
+            
             signal, sr = sf.read(example["wav_path"])
             input_values = processor(signal, sampling_rate=sr, return_tensors="pt").input_values
 
@@ -47,8 +48,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--lang",           required=True)
     parser.add_argument("--input_manifest", required=True)
-    parser.add_argument("--output_dir",     default="data/predictions")
+    parser.add_argument("--output_dir",     default="data")
     args = parser.parse_args()
 
     predict_manifest(args.input_manifest, args.output_dir, args.lang)
-    # pixi run python predict.py --lang french --input_manifest data/manifests/french/clean.jsonl
+    # pixi run python predict.py --lang french --input_manifest data/french/manifests/clean.jsonl

@@ -7,9 +7,12 @@ import os
 import argparse
 
 
-def make_noisy_manifest(lang, input_manifest, output_dir, audio_dir, snr_db, seed=42):
-    out_path = Path(output_dir) / lang / f"noisy{snr_db}.jsonl"
+def make_noisy_manifest(lang, input_manifest, output_dir, snr_db, seed=42):
+    out_path = Path(output_dir) / lang / "manifests" / f"noisy{snr_db}.jsonl"
     out_path.parent.mkdir(parents=True, exist_ok=True)
+
+    audio_dir = Path(output_dir) / lang / "noisy"
+    audio_dir.mkdir(parents=True, exist_ok=True)
 
     tmp_fd, tmp_path = tempfile.mkstemp(dir=out_path.parent,
                                         suffix=".jsonl")
@@ -20,9 +23,8 @@ def make_noisy_manifest(lang, input_manifest, output_dir, audio_dir, snr_db, see
             example = json.loads(line)
 
             stem = Path(example["wav_path"]).stem
-            noisy_wav = Path(audio_dir) / lang / f"{stem}.wav"
-            noisy_wav.parent.mkdir(parents=True, exist_ok=True)
-
+            noisy_wav = audio_dir / f"{stem}_snr{snr_db}.wav"
+    
             add_noise_to_file(input_wav=example["wav_path"],
                               output_wav=noisy_wav,
                               snr_db=snr_db,
@@ -47,15 +49,17 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--lang",           required=True)
     parser.add_argument("--input_manifest", required=True)
-    parser.add_argument("--output_dir",     default="data/manifests")
-    parser.add_argument("--audio_dir",      default="data/noisy")
+    parser.add_argument("--output_dir",     default="data")
     parser.add_argument("--snr_db",         type=float, required=True)
-    parser.add_argument("--seed",           type=int,   default=42)
+    parser.add_argument("--seed",           type=int, default=42)
     args = parser.parse_args()
 
     make_noisy_manifest(args.lang,
                         args.input_manifest,
                         args.output_dir,
-                        args.audio_dir,
                         args.snr_db,
                         args.seed)
+    '''
+    pixi run python make_noisy_manifest.py --lang french\
+    --input_manifest data/french/manifests/clean.jsonl --snr_db 10
+    '''

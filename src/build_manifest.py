@@ -32,9 +32,12 @@ def extract_phonemes(transcript, lang):
     return " ".join(phonemes)
 
 
-def build_manifest(lang, output_dir, audio_dir, split, max_samples=None):
-    out_path = Path(output_dir) / lang / "clean.jsonl"
+def build_manifest(lang, output_dir, split, max_samples=None):
+    out_path = Path(output_dir) / lang / "manifests" / "clean.jsonl"
     out_path.parent.mkdir(parents=True, exist_ok=True)
+
+    audio_dir = Path(output_dir) / lang / "raw"
+    audio_dir.mkdir(parents=True, exist_ok=True)
 
     data = load_dataset("facebook/multilingual_librispeech",
                         lang,
@@ -60,8 +63,7 @@ def build_manifest(lang, output_dir, audio_dir, split, max_samples=None):
             # decode and wav writting
             signal, sr = sf.read(io.BytesIO(audio_bytes))
             stem = Path(audio["path"]).stem
-            wav_out = Path(audio_dir) / lang / f"{stem}.wav"
-            wav_out.parent.mkdir(parents=True, exist_ok=True)
+            wav_out = audio_dir / f"{stem}.wav"
             sf.write(wav_out, signal, sr)
 
             transcript = example["transcript"]
@@ -86,10 +88,10 @@ def build_manifest(lang, output_dir, audio_dir, split, max_samples=None):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--lang",        required=True)
-    parser.add_argument("--output_dir",  default="data/manifests")
-    parser.add_argument("--audio_dir",   default="data/raw")
+    parser.add_argument("--output_dir",  default="data")
     parser.add_argument("--split",       default="train")
     parser.add_argument("--max_samples", type=int, default=None)
     args = parser.parse_args()
 
-    build_manifest(args.lang, args.output_dir, args.audio_dir, args.split, args.max_samples)
+    build_manifest(args.lang, args.output_dir, args.split, args.max_samples)
+    # pixi run python build_manifest.py --lang french --max_samples 1
