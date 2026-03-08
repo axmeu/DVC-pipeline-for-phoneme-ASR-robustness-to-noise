@@ -14,9 +14,9 @@ def make_noisy_manifest(lang, input_manifest, output_dir, audio_dir, snr_db, see
     tmp_fd, tmp_path = tempfile.mkstemp(dir=out_path.parent,
                                         suffix=".jsonl")
 
-    with open(input_manifest, encoding="utf-8") as clean_m, \
-            os.fdopen(tmp_fd, "w", encoding="utf-8") as noisy_m:
-        for line in clean_m:
+    with open(input_manifest, encoding="utf-8") as m_in, \
+            os.fdopen(tmp_fd, "w", encoding="utf-8") as m_out:
+        for line in m_in:
             example = json.loads(line)
 
             stem = Path(example["wav_path"]).stem
@@ -37,7 +37,7 @@ def make_noisy_manifest(lang, input_manifest, output_dir, audio_dir, snr_db, see
                 "audio_md5": audio_md5,
                 "snr_db": snr_db
             }
-            noisy_m.write(json.dumps(noisy_manifest, ensure_ascii=False) + "\n")
+            m_out.write(json.dumps(noisy_manifest, ensure_ascii=False) + "\n")
 
     os.replace(tmp_path, out_path)
     print(f"Noisy manifest written in {output_dir}")

@@ -9,27 +9,27 @@ import datasets
 import soundfile as sf
 from datasets import load_dataset
 import subprocess
+from convert_lang import convert_lang
 
 
 def extract_phonemes(transcript, lang):
-    convert_to_espeak = {"french": "fr",
-                     "german": "de",
-                     "dutch": "nl",
-                     "spanish": "es",
-                     "italian": "it",
-                     "portuguese": "pt",
-                     "polish": "pl"}
+    conv_lang = convert_lang(lang)
 
-    lang = convert_to_espeak[lang]
-
-    cmd_line = ["espeak-ng", "-v", lang, "-q", "--ipa"]
+    cmd_line = ["espeak-ng", "-v", conv_lang, "-q", "--ipa", "--sep"]
     # espeak with *lang* voice with no sound output and ipa convention
 
-    phonemes = subprocess.run(cmd_line,
-                              input=transcript,
-                              capture_output=True,
-                              text=True)
-    return phonemes.stdout.strip()
+    raw = subprocess.run(cmd_line,
+                         input=transcript,
+                         capture_output=True,
+                         text=True).stdout.strip()
+
+    phonemes = [p.strip()
+                .replace("ˈ", "")
+                .replace("ˌ", "")
+                .replace("-", "")
+                for p in raw.split()]
+    phonemes = [p for p in phonemes if p]
+    return " ".join(phonemes)
 
 
 def build_manifest(lang, output_dir, audio_dir, split, max_samples=None):
