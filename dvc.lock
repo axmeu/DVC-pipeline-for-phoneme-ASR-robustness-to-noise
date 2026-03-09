@@ -16,6 +16,7 @@ stages:
       params.yaml:
         langs:
         - french
+        - german
         max_samples: 50
         split: train
     outs:
@@ -760,9 +761,9 @@ stages:
     deps:
     - path: data
       hash: md5
-      md5: 859345ebf6e4f7f1f8c831d41f42c557.dir
-      size: 267586833
-      nfiles: 587
+      md5: 0c80a6333b4e873bb9a20a475520a580.dir
+      size: 524442004
+      nfiles: 1171
     - path: src/plot.py
       hash: md5
       md5: f6533b793f6bc04bf78ad3c35957715c
@@ -770,5 +771,761 @@ stages:
     outs:
     - path: results/per_plot.png
       hash: md5
-      md5: f7bcf767b0b09e2c0df526c1f122e01b
-      size: 44975
+      md5: 5c386fd2cbcd5634cc47a5930cf21385
+      size: 76898
+  build_manifest@german:
+    cmd: python src/build_manifest.py --lang german --output_dir data --split 
+      train --max_samples 50
+    deps:
+    - path: src/build_manifest.py
+      hash: md5
+      md5: d3adb782062c9cdf6dd2bb1ff0c87a51
+      size: 3528
+    - path: src/convert_lang.py
+      hash: md5
+      md5: bac64d622c7a88bddf6024a1de1deaa8
+      size: 296
+    params:
+      params.yaml:
+        langs:
+        - french
+        - german
+        max_samples: 50
+        split: train
+    outs:
+    - path: data/german/manifests/clean.jsonl
+      hash: md5
+      md5: 729b57d4c0ed0c88a052cb3f0e37ac87
+      size: 38849
+  make_noisy@german--10:
+    cmd: python src/make_noisy_manifest.py --lang german --input_manifest 
+      data/german/manifests/clean.jsonl --output_dir data --snr_db -10 --seed 42
+    deps:
+    - path: data/german/manifests/clean.jsonl
+      hash: md5
+      md5: 729b57d4c0ed0c88a052cb3f0e37ac87
+      size: 38849
+    - path: src/add_noise.py
+      hash: md5
+      md5: c1061e801b0fdbf4b0578f37e47ce4e0
+      size: 783
+    - path: src/make_noisy_manifest.py
+      hash: md5
+      md5: 06881b4062941de3da2cded22a5f9f9a
+      size: 2293
+    params:
+      params.yaml:
+        noise_levels:
+        - -10
+        - -5
+        - 0
+        - 5
+        - 10
+        - 15
+        - 20
+        - 25
+        - 30
+        - 35
+        noise_seed: 42
+    outs:
+    - path: data/german/manifests/noisy-10.jsonl
+      hash: md5
+      md5: 13291699e6abfdac083f8cc069d1441c
+      size: 39449
+  make_noisy@german--5:
+    cmd: python src/make_noisy_manifest.py --lang german --input_manifest 
+      data/german/manifests/clean.jsonl --output_dir data --snr_db -5 --seed 42
+    deps:
+    - path: data/german/manifests/clean.jsonl
+      hash: md5
+      md5: 729b57d4c0ed0c88a052cb3f0e37ac87
+      size: 38849
+    - path: src/add_noise.py
+      hash: md5
+      md5: c1061e801b0fdbf4b0578f37e47ce4e0
+      size: 783
+    - path: src/make_noisy_manifest.py
+      hash: md5
+      md5: 06881b4062941de3da2cded22a5f9f9a
+      size: 2293
+    params:
+      params.yaml:
+        noise_levels:
+        - -10
+        - -5
+        - 0
+        - 5
+        - 10
+        - 15
+        - 20
+        - 25
+        - 30
+        - 35
+        noise_seed: 42
+    outs:
+    - path: data/german/manifests/noisy-5.jsonl
+      hash: md5
+      md5: e6448372cb50012badfaecf0705873f9
+      size: 39349
+  make_noisy@german-0:
+    cmd: python src/make_noisy_manifest.py --lang german --input_manifest 
+      data/german/manifests/clean.jsonl --output_dir data --snr_db 0 --seed 42
+    deps:
+    - path: data/german/manifests/clean.jsonl
+      hash: md5
+      md5: 729b57d4c0ed0c88a052cb3f0e37ac87
+      size: 38849
+    - path: src/add_noise.py
+      hash: md5
+      md5: c1061e801b0fdbf4b0578f37e47ce4e0
+      size: 783
+    - path: src/make_noisy_manifest.py
+      hash: md5
+      md5: 06881b4062941de3da2cded22a5f9f9a
+      size: 2293
+    params:
+      params.yaml:
+        noise_levels:
+        - -10
+        - -5
+        - 0
+        - 5
+        - 10
+        - 15
+        - 20
+        - 25
+        - 30
+        - 35
+        noise_seed: 42
+    outs:
+    - path: data/german/manifests/noisy0.jsonl
+      hash: md5
+      md5: 8393fcfc952cb0ded4775c8953dc9307
+      size: 39249
+  make_noisy@german-5:
+    cmd: python src/make_noisy_manifest.py --lang german --input_manifest 
+      data/german/manifests/clean.jsonl --output_dir data --snr_db 5 --seed 42
+    deps:
+    - path: data/german/manifests/clean.jsonl
+      hash: md5
+      md5: 729b57d4c0ed0c88a052cb3f0e37ac87
+      size: 38849
+    - path: src/add_noise.py
+      hash: md5
+      md5: c1061e801b0fdbf4b0578f37e47ce4e0
+      size: 783
+    - path: src/make_noisy_manifest.py
+      hash: md5
+      md5: 06881b4062941de3da2cded22a5f9f9a
+      size: 2293
+    params:
+      params.yaml:
+        noise_levels:
+        - -10
+        - -5
+        - 0
+        - 5
+        - 10
+        - 15
+        - 20
+        - 25
+        - 30
+        - 35
+        noise_seed: 42
+    outs:
+    - path: data/german/manifests/noisy5.jsonl
+      hash: md5
+      md5: c8494fff6704bb2d571b0b2393298c2a
+      size: 39249
+  make_noisy@german-10:
+    cmd: python src/make_noisy_manifest.py --lang german --input_manifest 
+      data/german/manifests/clean.jsonl --output_dir data --snr_db 10 --seed 42
+    deps:
+    - path: data/german/manifests/clean.jsonl
+      hash: md5
+      md5: 729b57d4c0ed0c88a052cb3f0e37ac87
+      size: 38849
+    - path: src/add_noise.py
+      hash: md5
+      md5: c1061e801b0fdbf4b0578f37e47ce4e0
+      size: 783
+    - path: src/make_noisy_manifest.py
+      hash: md5
+      md5: 06881b4062941de3da2cded22a5f9f9a
+      size: 2293
+    params:
+      params.yaml:
+        noise_levels:
+        - -10
+        - -5
+        - 0
+        - 5
+        - 10
+        - 15
+        - 20
+        - 25
+        - 30
+        - 35
+        noise_seed: 42
+    outs:
+    - path: data/german/manifests/noisy10.jsonl
+      hash: md5
+      md5: 13a413e1729cd58f8f7c4391b0ad68d1
+      size: 39349
+  make_noisy@german-15:
+    cmd: python src/make_noisy_manifest.py --lang german --input_manifest 
+      data/german/manifests/clean.jsonl --output_dir data --snr_db 15 --seed 42
+    deps:
+    - path: data/german/manifests/clean.jsonl
+      hash: md5
+      md5: 729b57d4c0ed0c88a052cb3f0e37ac87
+      size: 38849
+    - path: src/add_noise.py
+      hash: md5
+      md5: c1061e801b0fdbf4b0578f37e47ce4e0
+      size: 783
+    - path: src/make_noisy_manifest.py
+      hash: md5
+      md5: 06881b4062941de3da2cded22a5f9f9a
+      size: 2293
+    params:
+      params.yaml:
+        noise_levels:
+        - -10
+        - -5
+        - 0
+        - 5
+        - 10
+        - 15
+        - 20
+        - 25
+        - 30
+        - 35
+        noise_seed: 42
+    outs:
+    - path: data/german/manifests/noisy15.jsonl
+      hash: md5
+      md5: 5838598e3b4315b515eecd21444834ee
+      size: 39349
+  make_noisy@german-20:
+    cmd: python src/make_noisy_manifest.py --lang german --input_manifest 
+      data/german/manifests/clean.jsonl --output_dir data --snr_db 20 --seed 42
+    deps:
+    - path: data/german/manifests/clean.jsonl
+      hash: md5
+      md5: 729b57d4c0ed0c88a052cb3f0e37ac87
+      size: 38849
+    - path: src/add_noise.py
+      hash: md5
+      md5: c1061e801b0fdbf4b0578f37e47ce4e0
+      size: 783
+    - path: src/make_noisy_manifest.py
+      hash: md5
+      md5: 06881b4062941de3da2cded22a5f9f9a
+      size: 2293
+    params:
+      params.yaml:
+        noise_levels:
+        - -10
+        - -5
+        - 0
+        - 5
+        - 10
+        - 15
+        - 20
+        - 25
+        - 30
+        - 35
+        noise_seed: 42
+    outs:
+    - path: data/german/manifests/noisy20.jsonl
+      hash: md5
+      md5: b4c046510694950b7b3d4b7cdc3cb0fc
+      size: 39349
+  make_noisy@german-25:
+    cmd: python src/make_noisy_manifest.py --lang german --input_manifest 
+      data/german/manifests/clean.jsonl --output_dir data --snr_db 25 --seed 42
+    deps:
+    - path: data/german/manifests/clean.jsonl
+      hash: md5
+      md5: 729b57d4c0ed0c88a052cb3f0e37ac87
+      size: 38849
+    - path: src/add_noise.py
+      hash: md5
+      md5: c1061e801b0fdbf4b0578f37e47ce4e0
+      size: 783
+    - path: src/make_noisy_manifest.py
+      hash: md5
+      md5: 06881b4062941de3da2cded22a5f9f9a
+      size: 2293
+    params:
+      params.yaml:
+        noise_levels:
+        - -10
+        - -5
+        - 0
+        - 5
+        - 10
+        - 15
+        - 20
+        - 25
+        - 30
+        - 35
+        noise_seed: 42
+    outs:
+    - path: data/german/manifests/noisy25.jsonl
+      hash: md5
+      md5: 0aeebbceb6fd37b8f160332ed5cee15b
+      size: 39349
+  make_noisy@german-30:
+    cmd: python src/make_noisy_manifest.py --lang german --input_manifest 
+      data/german/manifests/clean.jsonl --output_dir data --snr_db 30 --seed 42
+    deps:
+    - path: data/german/manifests/clean.jsonl
+      hash: md5
+      md5: 729b57d4c0ed0c88a052cb3f0e37ac87
+      size: 38849
+    - path: src/add_noise.py
+      hash: md5
+      md5: c1061e801b0fdbf4b0578f37e47ce4e0
+      size: 783
+    - path: src/make_noisy_manifest.py
+      hash: md5
+      md5: 06881b4062941de3da2cded22a5f9f9a
+      size: 2293
+    params:
+      params.yaml:
+        noise_levels:
+        - -10
+        - -5
+        - 0
+        - 5
+        - 10
+        - 15
+        - 20
+        - 25
+        - 30
+        - 35
+        noise_seed: 42
+    outs:
+    - path: data/german/manifests/noisy30.jsonl
+      hash: md5
+      md5: 94f186bab663e2e505272fac2d0cf6ad
+      size: 39349
+  make_noisy@german-35:
+    cmd: python src/make_noisy_manifest.py --lang german --input_manifest 
+      data/german/manifests/clean.jsonl --output_dir data --snr_db 35 --seed 42
+    deps:
+    - path: data/german/manifests/clean.jsonl
+      hash: md5
+      md5: 729b57d4c0ed0c88a052cb3f0e37ac87
+      size: 38849
+    - path: src/add_noise.py
+      hash: md5
+      md5: c1061e801b0fdbf4b0578f37e47ce4e0
+      size: 783
+    - path: src/make_noisy_manifest.py
+      hash: md5
+      md5: 06881b4062941de3da2cded22a5f9f9a
+      size: 2293
+    params:
+      params.yaml:
+        noise_levels:
+        - -10
+        - -5
+        - 0
+        - 5
+        - 10
+        - 15
+        - 20
+        - 25
+        - 30
+        - 35
+        noise_seed: 42
+    outs:
+    - path: data/german/manifests/noisy35.jsonl
+      hash: md5
+      md5: 694f622f2b6a093270b294bf8b475072
+      size: 39349
+  predict@german--10:
+    cmd: python src/predict.py --lang german --input_manifest 
+      data/german/manifests/noisy-10.jsonl --output_dir data --snr_db -10
+    deps:
+    - path: data/german/manifests/noisy-10.jsonl
+      hash: md5
+      md5: 13291699e6abfdac083f8cc069d1441c
+      size: 39449
+    - path: src/predict.py
+      hash: md5
+      md5: e86ff2ea1cccf4a814891a20a29733e2
+      size: 2171
+    outs:
+    - path: data/german/manifests/predictions_snr-10.jsonl
+      hash: md5
+      md5: 8cac908c750f691b6c727e132f3cd839
+      size: 40352
+  predict@german--5:
+    cmd: python src/predict.py --lang german --input_manifest 
+      data/german/manifests/noisy-5.jsonl --output_dir data --snr_db -5
+    deps:
+    - path: data/german/manifests/noisy-5.jsonl
+      hash: md5
+      md5: e6448372cb50012badfaecf0705873f9
+      size: 39349
+    - path: src/predict.py
+      hash: md5
+      md5: e86ff2ea1cccf4a814891a20a29733e2
+      size: 2171
+    outs:
+    - path: data/german/manifests/predictions_snr-5.jsonl
+      hash: md5
+      md5: c9381f703d2184877f42fe3dc3c739b0
+      size: 45664
+  predict@german-0:
+    cmd: python src/predict.py --lang german --input_manifest 
+      data/german/manifests/noisy0.jsonl --output_dir data --snr_db 0
+    deps:
+    - path: data/german/manifests/noisy0.jsonl
+      hash: md5
+      md5: 8393fcfc952cb0ded4775c8953dc9307
+      size: 39249
+    - path: src/predict.py
+      hash: md5
+      md5: e86ff2ea1cccf4a814891a20a29733e2
+      size: 2171
+    outs:
+    - path: data/german/manifests/predictions_snr0.jsonl
+      hash: md5
+      md5: bb4dc4545dab50ff6dfdf4db56ec2d67
+      size: 51505
+  predict@german-5:
+    cmd: python src/predict.py --lang german --input_manifest 
+      data/german/manifests/noisy5.jsonl --output_dir data --snr_db 5
+    deps:
+    - path: data/german/manifests/noisy5.jsonl
+      hash: md5
+      md5: c8494fff6704bb2d571b0b2393298c2a
+      size: 39249
+    - path: src/predict.py
+      hash: md5
+      md5: e86ff2ea1cccf4a814891a20a29733e2
+      size: 2171
+    outs:
+    - path: data/german/manifests/predictions_snr5.jsonl
+      hash: md5
+      md5: d81096dc1a620843c6f99f300a2d7134
+      size: 54072
+  predict@german-10:
+    cmd: python src/predict.py --lang german --input_manifest 
+      data/german/manifests/noisy10.jsonl --output_dir data --snr_db 10
+    deps:
+    - path: data/german/manifests/noisy10.jsonl
+      hash: md5
+      md5: 13a413e1729cd58f8f7c4391b0ad68d1
+      size: 39349
+    - path: src/predict.py
+      hash: md5
+      md5: e86ff2ea1cccf4a814891a20a29733e2
+      size: 2171
+    outs:
+    - path: data/german/manifests/predictions_snr10.jsonl
+      hash: md5
+      md5: 4a1d07956b4ce7c1d1173d47b6876b6b
+      size: 55833
+  predict@german-15:
+    cmd: python src/predict.py --lang german --input_manifest 
+      data/german/manifests/noisy15.jsonl --output_dir data --snr_db 15
+    deps:
+    - path: data/german/manifests/noisy15.jsonl
+      hash: md5
+      md5: 5838598e3b4315b515eecd21444834ee
+      size: 39349
+    - path: src/predict.py
+      hash: md5
+      md5: e86ff2ea1cccf4a814891a20a29733e2
+      size: 2171
+    outs:
+    - path: data/german/manifests/predictions_snr15.jsonl
+      hash: md5
+      md5: 2018daf42b0bad3c7cda03487bf5f857
+      size: 57472
+  predict@german-20:
+    cmd: python src/predict.py --lang german --input_manifest 
+      data/german/manifests/noisy20.jsonl --output_dir data --snr_db 20
+    deps:
+    - path: data/german/manifests/noisy20.jsonl
+      hash: md5
+      md5: b4c046510694950b7b3d4b7cdc3cb0fc
+      size: 39349
+    - path: src/predict.py
+      hash: md5
+      md5: e86ff2ea1cccf4a814891a20a29733e2
+      size: 2171
+    outs:
+    - path: data/german/manifests/predictions_snr20.jsonl
+      hash: md5
+      md5: d0c125c5ce3d9fc76fd2e0d10c55548b
+      size: 57957
+  predict@german-25:
+    cmd: python src/predict.py --lang german --input_manifest 
+      data/german/manifests/noisy25.jsonl --output_dir data --snr_db 25
+    deps:
+    - path: data/german/manifests/noisy25.jsonl
+      hash: md5
+      md5: 0aeebbceb6fd37b8f160332ed5cee15b
+      size: 39349
+    - path: src/predict.py
+      hash: md5
+      md5: e86ff2ea1cccf4a814891a20a29733e2
+      size: 2171
+    outs:
+    - path: data/german/manifests/predictions_snr25.jsonl
+      hash: md5
+      md5: 915081a3b84856263f51eeb5a3eb5f08
+      size: 58110
+  predict@german-30:
+    cmd: python src/predict.py --lang german --input_manifest 
+      data/german/manifests/noisy30.jsonl --output_dir data --snr_db 30
+    deps:
+    - path: data/german/manifests/noisy30.jsonl
+      hash: md5
+      md5: 94f186bab663e2e505272fac2d0cf6ad
+      size: 39349
+    - path: src/predict.py
+      hash: md5
+      md5: e86ff2ea1cccf4a814891a20a29733e2
+      size: 2171
+    outs:
+    - path: data/german/manifests/predictions_snr30.jsonl
+      hash: md5
+      md5: 7ba57a0f9957497de02f0b0a5388d6ee
+      size: 58222
+  predict@german-35:
+    cmd: python src/predict.py --lang german --input_manifest 
+      data/german/manifests/noisy35.jsonl --output_dir data --snr_db 35
+    deps:
+    - path: data/german/manifests/noisy35.jsonl
+      hash: md5
+      md5: 694f622f2b6a093270b294bf8b475072
+      size: 39349
+    - path: src/predict.py
+      hash: md5
+      md5: e86ff2ea1cccf4a814891a20a29733e2
+      size: 2171
+    outs:
+    - path: data/german/manifests/predictions_snr35.jsonl
+      hash: md5
+      md5: 949f4e080c1d94e5d564896b69695046
+      size: 58232
+  predict_clean@german:
+    cmd: python src/predict.py --lang german --input_manifest 
+      data/german/manifests/clean.jsonl --output_dir data
+    deps:
+    - path: data/german/manifests/clean.jsonl
+      hash: md5
+      md5: 729b57d4c0ed0c88a052cb3f0e37ac87
+      size: 38849
+    - path: src/predict.py
+      hash: md5
+      md5: e86ff2ea1cccf4a814891a20a29733e2
+      size: 2171
+    outs:
+    - path: data/german/manifests/predictions_clean.jsonl
+      hash: md5
+      md5: dccb7989c573095f3227fe3276569dff
+      size: 57657
+  evaluate@german--10:
+    cmd: python src/evaluate.py --lang german --input_manifest 
+      data/german/manifests/predictions_snr-10.jsonl --output_dir data --snr_db 
+      -10
+    deps:
+    - path: data/german/manifests/predictions_snr-10.jsonl
+      hash: md5
+      md5: 8cac908c750f691b6c727e132f3cd839
+      size: 40352
+    - path: src/evaluate.py
+      hash: md5
+      md5: db3c40a8556fe7928e29ef3043402d48
+      size: 1515
+    outs:
+    - path: data/german/metrics/results_snr-10.jsonl
+      hash: md5
+      md5: d5338a3311033e598a340d6083c7f20b
+      size: 41059
+  evaluate@german--5:
+    cmd: python src/evaluate.py --lang german --input_manifest 
+      data/german/manifests/predictions_snr-5.jsonl --output_dir data --snr_db 
+      -5
+    deps:
+    - path: data/german/manifests/predictions_snr-5.jsonl
+      hash: md5
+      md5: c9381f703d2184877f42fe3dc3c739b0
+      size: 45664
+    - path: src/evaluate.py
+      hash: md5
+      md5: db3c40a8556fe7928e29ef3043402d48
+      size: 1515
+    outs:
+    - path: data/german/metrics/results_snr-5.jsonl
+      hash: md5
+      md5: 1f984ee4a959860780df44c809610746
+      size: 46955
+  evaluate@german-0:
+    cmd: python src/evaluate.py --lang german --input_manifest 
+      data/german/manifests/predictions_snr0.jsonl --output_dir data --snr_db 0
+    deps:
+    - path: data/german/manifests/predictions_snr0.jsonl
+      hash: md5
+      md5: bb4dc4545dab50ff6dfdf4db56ec2d67
+      size: 51505
+    - path: src/evaluate.py
+      hash: md5
+      md5: db3c40a8556fe7928e29ef3043402d48
+      size: 1515
+    outs:
+    - path: data/german/metrics/results_snr0.jsonl
+      hash: md5
+      md5: 7a116dc43ae61f3d997cc0f42254c440
+      size: 52797
+  evaluate@german-5:
+    cmd: python src/evaluate.py --lang german --input_manifest 
+      data/german/manifests/predictions_snr5.jsonl --output_dir data --snr_db 5
+    deps:
+    - path: data/german/manifests/predictions_snr5.jsonl
+      hash: md5
+      md5: d81096dc1a620843c6f99f300a2d7134
+      size: 54072
+    - path: src/evaluate.py
+      hash: md5
+      md5: db3c40a8556fe7928e29ef3043402d48
+      size: 1515
+    outs:
+    - path: data/german/metrics/results_snr5.jsonl
+      hash: md5
+      md5: 5f70b240ea09ebefd3f6d972a4714cad
+      size: 55334
+  evaluate@german-10:
+    cmd: python src/evaluate.py --lang german --input_manifest 
+      data/german/manifests/predictions_snr10.jsonl --output_dir data --snr_db 
+      10
+    deps:
+    - path: data/german/manifests/predictions_snr10.jsonl
+      hash: md5
+      md5: 4a1d07956b4ce7c1d1173d47b6876b6b
+      size: 55833
+    - path: src/evaluate.py
+      hash: md5
+      md5: db3c40a8556fe7928e29ef3043402d48
+      size: 1515
+    outs:
+    - path: data/german/metrics/results_snr10.jsonl
+      hash: md5
+      md5: 898f83d534424b0e189bbc182b77b868
+      size: 57110
+  evaluate@german-15:
+    cmd: python src/evaluate.py --lang german --input_manifest 
+      data/german/manifests/predictions_snr15.jsonl --output_dir data --snr_db 
+      15
+    deps:
+    - path: data/german/manifests/predictions_snr15.jsonl
+      hash: md5
+      md5: 2018daf42b0bad3c7cda03487bf5f857
+      size: 57472
+    - path: src/evaluate.py
+      hash: md5
+      md5: db3c40a8556fe7928e29ef3043402d48
+      size: 1515
+    outs:
+    - path: data/german/metrics/results_snr15.jsonl
+      hash: md5
+      md5: 78fe50fdcf7fbb6b4df2d3230e2ac27f
+      size: 58775
+  evaluate@german-20:
+    cmd: python src/evaluate.py --lang german --input_manifest 
+      data/german/manifests/predictions_snr20.jsonl --output_dir data --snr_db 
+      20
+    deps:
+    - path: data/german/manifests/predictions_snr20.jsonl
+      hash: md5
+      md5: d0c125c5ce3d9fc76fd2e0d10c55548b
+      size: 57957
+    - path: src/evaluate.py
+      hash: md5
+      md5: db3c40a8556fe7928e29ef3043402d48
+      size: 1515
+    outs:
+    - path: data/german/metrics/results_snr20.jsonl
+      hash: md5
+      md5: a1b3664e8a31710db438daaebdf2d7cf
+      size: 59258
+  evaluate@german-25:
+    cmd: python src/evaluate.py --lang german --input_manifest 
+      data/german/manifests/predictions_snr25.jsonl --output_dir data --snr_db 
+      25
+    deps:
+    - path: data/german/manifests/predictions_snr25.jsonl
+      hash: md5
+      md5: 915081a3b84856263f51eeb5a3eb5f08
+      size: 58110
+    - path: src/evaluate.py
+      hash: md5
+      md5: db3c40a8556fe7928e29ef3043402d48
+      size: 1515
+    outs:
+    - path: data/german/metrics/results_snr25.jsonl
+      hash: md5
+      md5: 84fad99799821650a3d84a9c79e7672c
+      size: 59424
+  evaluate@german-30:
+    cmd: python src/evaluate.py --lang german --input_manifest 
+      data/german/manifests/predictions_snr30.jsonl --output_dir data --snr_db 
+      30
+    deps:
+    - path: data/german/manifests/predictions_snr30.jsonl
+      hash: md5
+      md5: 7ba57a0f9957497de02f0b0a5388d6ee
+      size: 58222
+    - path: src/evaluate.py
+      hash: md5
+      md5: db3c40a8556fe7928e29ef3043402d48
+      size: 1515
+    outs:
+    - path: data/german/metrics/results_snr30.jsonl
+      hash: md5
+      md5: 6fbcc1ac63da1b93f86f1b02f02842ab
+      size: 59521
+  evaluate@german-35:
+    cmd: python src/evaluate.py --lang german --input_manifest 
+      data/german/manifests/predictions_snr35.jsonl --output_dir data --snr_db 
+      35
+    deps:
+    - path: data/german/manifests/predictions_snr35.jsonl
+      hash: md5
+      md5: 949f4e080c1d94e5d564896b69695046
+      size: 58232
+    - path: src/evaluate.py
+      hash: md5
+      md5: db3c40a8556fe7928e29ef3043402d48
+      size: 1515
+    outs:
+    - path: data/german/metrics/results_snr35.jsonl
+      hash: md5
+      md5: 28634dc5b85c8dc9a563029f317338dd
+      size: 59528
+  evaluate_clean@german:
+    cmd: python src/evaluate.py --lang german --input_manifest 
+      data/german/manifests/predictions_clean.jsonl --output_dir data
+    deps:
+    - path: data/german/manifests/predictions_clean.jsonl
+      hash: md5
+      md5: dccb7989c573095f3227fe3276569dff
+      size: 57657
+    - path: src/evaluate.py
+      hash: md5
+      md5: db3c40a8556fe7928e29ef3043402d48
+      size: 1515
+    outs:
+    - path: data/german/metrics/results_clean.jsonl
+      hash: md5
+      md5: 82db7cabd652defad33713c9f95c1d66
+      size: 58975
