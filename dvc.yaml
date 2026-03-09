@@ -1,0 +1,107 @@
+stages:
+  build_manifest:
+    foreach: ${langs}
+    do:
+      cmd: python src/build_manifest.py
+             --lang ${item}
+             --output_dir data
+             --split ${split}
+             --max_samples ${max_samples}
+      deps:
+        - src/build_manifest.py
+        - src/convert_lang.py
+      params:
+        - langs
+        - split
+        - max_samples
+      outs:
+        - data/${item}/manifests/clean.jsonl
+
+  make_noisy:
+    matrix:
+      lang: ${langs}
+      noise_level: ${noise_levels}
+    cmd: python src/make_noisy_manifest.py
+           --lang ${item.lang}
+           --input_manifest data/${item.lang}/manifests/clean.jsonl
+           --output_dir data
+           --snr_db ${item.noise_level}
+           --seed ${noise_seed}
+    deps:
+      - src/make_noisy_manifest.py
+      - src/add_noise.py
+      - data/${item.lang}/manifests/clean.jsonl
+    params:
+      - noise_levels
+      - noise_seed
+    outs:
+      - data/${item.lang}/manifests/noisy${item.noise_level}.jsonl
+
+  predict:
+    matrix:
+      lang: ${langs}
+      noise_level: ${noise_levels}
+    cmd: python src/predict.py
+           --lang ${item.lang}
+           --input_manifest data/${item.lang}/manifests/noisy${item.noise_level}.jsonl
+           --output_dir data
+           --snr_db ${item.noise_level}
+    deps:
+      - src/predict.py
+      - data/${item.lang}/manifests/noisy${item.noise_level}.jsonl
+    outs:
+      - data/${item.lang}/manifests/predictions_snr${item.noise_level}.jsonl
+
+  predict_clean:
+    foreach: ${langs}
+    do:
+      cmd: python src/predict.py
+             --lang ${item}
+             --input_manifest data/${item}/manifests/clean.jsonl
+             --output_dir data
+      deps:
+        - src/predict.py
+        - data/${item}/manifests/clean.jsonl
+      outs:
+        - data/${item}/manifests/predictions_clean.jsonl
+
+  evaluate:
+    matrix:
+      lang: ${langs}
+      noise_level: ${noise_levels}
+    cmd: python src/evaluate.py
+           --lang ${item.lang}
+           --input_manifest data/${item.lang}/manifests/predictions_snr${item.noise_level}.jsonl
+           --output_dir data
+           --snr_db ${item.noise_level}
+    deps:
+      - src/evaluate.py
+      - data/${item.lang}/manifests/predictions_snr${item.noise_level}.jsonl
+    outs:
+      - data/${item.lang}/metrics/results_snr${item.noise_level}.jsonl:
+          cache: false
+
+  evaluate_clean:
+    foreach: ${langs}
+    do:
+      cmd: python src/evaluate.py
+             --lang ${item}
+             --input_manifest data/${item}/manifests/predictions_clean.jsonl
+             --output_dir data
+      deps:
+        - src/evaluate.py
+        - data/${item}/manifests/predictions_clean.jsonl
+      outs:
+        - data/${item}/metrics/results_clean.jsonl:
+            cache: false
+
+  plot:
+    cmd: python src/plot.py
+           --input_dir data
+           --output_plot results/per_plot.png
+    deps:
+      - src/plot.py
+      - data
+    plots:
+      - results/per_plot.png:
+          cache: false

@@ -8,7 +8,7 @@ import argparse
 
 
 def make_noisy_manifest(lang, input_manifest, output_dir, snr_db, seed=42):
-    out_path = Path(output_dir) / lang / "manifests" / f"noisy{snr_db}.jsonl"
+    out_path = Path(output_dir) / lang / "manifests" / f"noisy{int(snr_db)}.jsonl"
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
     audio_dir = Path(output_dir) / lang / "noisy"
@@ -60,6 +60,6 @@ if __name__ == "__main__":
                         args.snr_db,
                         args.seed)
     '''
-    pixi run python make_noisy_manifest.py --lang french\
+    pixi run python src/make_noisy_manifest.py --lang french\
     --input_manifest data/french/manifests/clean.jsonl --snr_db 10
     '''

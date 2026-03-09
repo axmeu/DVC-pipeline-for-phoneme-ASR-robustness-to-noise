@@ -21,7 +21,8 @@ def extract_phonemes(transcript, lang):
     raw = subprocess.run(cmd_line,
                          input=transcript,
                          capture_output=True,
-                         text=True).stdout.strip()
+                         text=True,
+                         timeout=10).stdout.strip()
 
     phonemes = [p.strip()
                 .replace("ˈ", "")
@@ -77,12 +78,15 @@ def build_manifest(lang, output_dir, split, max_samples=None):
                 "ref_phon":  phonemes,
                 "audio_md5": md5,
                 "sr":        sr,
+                "snr_db":    None
             }
 
             f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
     os.replace(tmp_path, out_path)
     print(f"Clean manifest written in {output_dir}")
+    os._exit(0)  # the terminal was blocked otherwise even if it all 
+    # loaded and worked
 
 
 if __name__ == "__main__":
@@ -94,4 +98,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     build_manifest(args.lang, args.output_dir, args.split, args.max_samples)
-    # pixi run python build_manifest.py --lang french --max_samples 1
+    # pixi run python src/build_manifest.py --lang french --max_samples 1

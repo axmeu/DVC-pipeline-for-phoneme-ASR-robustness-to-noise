@@ -1,0 +1,5 @@
+langs: [french]
+noise_levels: [-10, -5, 0, 5, 10, 15, 20, 25, 30, 35]
+noise_seed: 42
+split: train
+max_samples: 50

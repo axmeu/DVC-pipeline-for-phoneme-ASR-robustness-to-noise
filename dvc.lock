@@ -1,0 +1,774 @@
+schema: '2.0'
+stages:
+  build_manifest@french:
+    cmd: python src/build_manifest.py --lang french --output_dir data --split 
+      train --max_samples 50
+    deps:
+    - path: src/build_manifest.py
+      hash: md5
+      md5: d3adb782062c9cdf6dd2bb1ff0c87a51
+      size: 3528
+    - path: src/convert_lang.py
+      hash: md5
+      md5: bac64d622c7a88bddf6024a1de1deaa8
+      size: 296
+    params:
+      params.yaml:
+        langs:
+        - french
+        max_samples: 50
+        split: train
+    outs:
+    - path: data/french/manifests/clean.jsonl
+      hash: md5
+      md5: 4135cf8ce3b3857d97a7be5d79f5b77d
+      size: 32610
+  make_noisy@french--10:
+    cmd: python src/make_noisy_manifest.py --lang french --input_manifest 
+      data/french/manifests/clean.jsonl --output_dir data --snr_db -10 --seed 42
+    deps:
+    - path: data/french/manifests/clean.jsonl
+      hash: md5
+      md5: 4135cf8ce3b3857d97a7be5d79f5b77d
+      size: 32610
+    - path: src/add_noise.py
+      hash: md5
+      md5: c1061e801b0fdbf4b0578f37e47ce4e0
+      size: 783
+    - path: src/make_noisy_manifest.py
+      hash: md5
+      md5: 06881b4062941de3da2cded22a5f9f9a
+      size: 2293
+    params:
+      params.yaml:
+        noise_levels:
+        - -10
+        - -5
+        - 0
+        - 5
+        - 10
+        - 15
+        - 20
+        - 25
+        - 30
+        - 35
+        noise_seed: 42
+    outs:
+    - path: data/french/manifests/noisy-10.jsonl
+      hash: md5
+      md5: 818c809e6c3c9f6a50a3f2f1f263e9fe
+      size: 33210
+  make_noisy@french--5:
+    cmd: python src/make_noisy_manifest.py --lang french --input_manifest 
+      data/french/manifests/clean.jsonl --output_dir data --snr_db -5 --seed 42
+    deps:
+    - path: data/french/manifests/clean.jsonl
+      hash: md5
+      md5: 4135cf8ce3b3857d97a7be5d79f5b77d
+      size: 32610
+    - path: src/add_noise.py
+      hash: md5
+      md5: c1061e801b0fdbf4b0578f37e47ce4e0
+      size: 783
+    - path: src/make_noisy_manifest.py
+      hash: md5
+      md5: 06881b4062941de3da2cded22a5f9f9a
+      size: 2293
+    params:
+      params.yaml:
+        noise_levels:
+        - -10
+        - -5
+        - 0
+        - 5
+        - 10
+        - 15
+        - 20
+        - 25
+        - 30
+        - 35
+        noise_seed: 42
+    outs:
+    - path: data/french/manifests/noisy-5.jsonl
+      hash: md5
+      md5: 792001c57c79736c1f29a6933541073e
+      size: 33110
+  make_noisy@french-0:
+    cmd: python src/make_noisy_manifest.py --lang french --input_manifest 
+      data/french/manifests/clean.jsonl --output_dir data --snr_db 0 --seed 42
+    deps:
+    - path: data/french/manifests/clean.jsonl
+      hash: md5
+      md5: 4135cf8ce3b3857d97a7be5d79f5b77d
+      size: 32610
+    - path: src/add_noise.py
+      hash: md5
+      md5: c1061e801b0fdbf4b0578f37e47ce4e0
+      size: 783
+    - path: src/make_noisy_manifest.py
+      hash: md5
+      md5: 06881b4062941de3da2cded22a5f9f9a
+      size: 2293
+    params:
+      params.yaml:
+        noise_levels:
+        - -10
+        - -5
+        - 0
+        - 5
+        - 10
+        - 15
+        - 20
+        - 25
+        - 30
+        - 35
+        noise_seed: 42
+    outs:
+    - path: data/french/manifests/noisy0.jsonl
+      hash: md5
+      md5: a758eed7d62fef88d5a0f89d8ae3694f
+      size: 33010
+  make_noisy@french-5:
+    cmd: python src/make_noisy_manifest.py --lang french --input_manifest 
+      data/french/manifests/clean.jsonl --output_dir data --snr_db 5 --seed 42
+    deps:
+    - path: data/french/manifests/clean.jsonl
+      hash: md5
+      md5: 4135cf8ce3b3857d97a7be5d79f5b77d
+      size: 32610
+    - path: src/add_noise.py
+      hash: md5
+      md5: c1061e801b0fdbf4b0578f37e47ce4e0
+      size: 783
+    - path: src/make_noisy_manifest.py
+      hash: md5
+      md5: 06881b4062941de3da2cded22a5f9f9a
+      size: 2293
+    params:
+      params.yaml:
+        noise_levels:
+        - -10
+        - -5
+        - 0
+        - 5
+        - 10
+        - 15
+        - 20
+        - 25
+        - 30
+        - 35
+        noise_seed: 42
+    outs:
+    - path: data/french/manifests/noisy5.jsonl
+      hash: md5
+      md5: 7e2c447ad47be9cae0e8862fc434bbc8
+      size: 33010
+  make_noisy@french-10:
+    cmd: python src/make_noisy_manifest.py --lang french --input_manifest 
+      data/french/manifests/clean.jsonl --output_dir data --snr_db 10 --seed 42
+    deps:
+    - path: data/french/manifests/clean.jsonl
+      hash: md5
+      md5: 4135cf8ce3b3857d97a7be5d79f5b77d
+      size: 32610
+    - path: src/add_noise.py
+      hash: md5
+      md5: c1061e801b0fdbf4b0578f37e47ce4e0
+      size: 783
+    - path: src/make_noisy_manifest.py
+      hash: md5
+      md5: 06881b4062941de3da2cded22a5f9f9a
+      size: 2293
+    params:
+      params.yaml:
+        noise_levels:
+        - -10
+        - -5
+        - 0
+        - 5
+        - 10
+        - 15
+        - 20
+        - 25
+        - 30
+        - 35
+        noise_seed: 42
+    outs:
+    - path: data/french/manifests/noisy10.jsonl
+      hash: md5
+      md5: 41e23a664126b5ffc05caa51c9e76490
+      size: 33110
+  make_noisy@french-15:
+    cmd: python src/make_noisy_manifest.py --lang french --input_manifest 
+      data/french/manifests/clean.jsonl --output_dir data --snr_db 15 --seed 42
+    deps:
+    - path: data/french/manifests/clean.jsonl
+      hash: md5
+      md5: 4135cf8ce3b3857d97a7be5d79f5b77d
+      size: 32610
+    - path: src/add_noise.py
+      hash: md5
+      md5: c1061e801b0fdbf4b0578f37e47ce4e0
+      size: 783
+    - path: src/make_noisy_manifest.py
+      hash: md5
+      md5: 06881b4062941de3da2cded22a5f9f9a
+      size: 2293
+    params:
+      params.yaml:
+        noise_levels:
+        - -10
+        - -5
+        - 0
+        - 5
+        - 10
+        - 15
+        - 20
+        - 25
+        - 30
+        - 35
+        noise_seed: 42
+    outs:
+    - path: data/french/manifests/noisy15.jsonl
+      hash: md5
+      md5: 93a087b88541f70421d320aebd0ce398
+      size: 33110
+  make_noisy@french-20:
+    cmd: python src/make_noisy_manifest.py --lang french --input_manifest 
+      data/french/manifests/clean.jsonl --output_dir data --snr_db 20 --seed 42
+    deps:
+    - path: data/french/manifests/clean.jsonl
+      hash: md5
+      md5: 4135cf8ce3b3857d97a7be5d79f5b77d
+      size: 32610
+    - path: src/add_noise.py
+      hash: md5
+      md5: c1061e801b0fdbf4b0578f37e47ce4e0
+      size: 783
+    - path: src/make_noisy_manifest.py
+      hash: md5
+      md5: 06881b4062941de3da2cded22a5f9f9a
+      size: 2293
+    params:
+      params.yaml:
+        noise_levels:
+        - -10
+        - -5
+        - 0
+        - 5
+        - 10
+        - 15
+        - 20
+        - 25
+        - 30
+        - 35
+        noise_seed: 42
+    outs:
+    - path: data/french/manifests/noisy20.jsonl
+      hash: md5
+      md5: f74a54db204c559b7a01de89e5502dbf
+      size: 33110
+  make_noisy@french-25:
+    cmd: python src/make_noisy_manifest.py --lang french --input_manifest 
+      data/french/manifests/clean.jsonl --output_dir data --snr_db 25 --seed 42
+    deps:
+    - path: data/french/manifests/clean.jsonl
+      hash: md5
+      md5: 4135cf8ce3b3857d97a7be5d79f5b77d
+      size: 32610
+    - path: src/add_noise.py
+      hash: md5
+      md5: c1061e801b0fdbf4b0578f37e47ce4e0
+      size: 783
+    - path: src/make_noisy_manifest.py
+      hash: md5
+      md5: 06881b4062941de3da2cded22a5f9f9a
+      size: 2293
+    params:
+      params.yaml:
+        noise_levels:
+        - -10
+        - -5
+        - 0
+        - 5
+        - 10
+        - 15
+        - 20
+        - 25
+        - 30
+        - 35
+        noise_seed: 42
+    outs:
+    - path: data/french/manifests/noisy25.jsonl
+      hash: md5
+      md5: d5fd0c1a1084bb63300b777dd83c53e4
+      size: 33110
+  make_noisy@french-30:
+    cmd: python src/make_noisy_manifest.py --lang french --input_manifest 
+      data/french/manifests/clean.jsonl --output_dir data --snr_db 30 --seed 42
+    deps:
+    - path: data/french/manifests/clean.jsonl
+      hash: md5
+      md5: 4135cf8ce3b3857d97a7be5d79f5b77d
+      size: 32610
+    - path: src/add_noise.py
+      hash: md5
+      md5: c1061e801b0fdbf4b0578f37e47ce4e0
+      size: 783
+    - path: src/make_noisy_manifest.py
+      hash: md5
+      md5: 06881b4062941de3da2cded22a5f9f9a
+      size: 2293
+    params:
+      params.yaml:
+        noise_levels:
+        - -10
+        - -5
+        - 0
+        - 5
+        - 10
+        - 15
+        - 20
+        - 25
+        - 30
+        - 35
+        noise_seed: 42
+    outs:
+    - path: data/french/manifests/noisy30.jsonl
+      hash: md5
+      md5: f4a53110a7f69de0e9291599cf555b10
+      size: 33110
+  make_noisy@french-35:
+    cmd: python src/make_noisy_manifest.py --lang french --input_manifest 
+      data/french/manifests/clean.jsonl --output_dir data --snr_db 35 --seed 42
+    deps:
+    - path: data/french/manifests/clean.jsonl
+      hash: md5
+      md5: 4135cf8ce3b3857d97a7be5d79f5b77d
+      size: 32610
+    - path: src/add_noise.py
+      hash: md5
+      md5: c1061e801b0fdbf4b0578f37e47ce4e0
+      size: 783
+    - path: src/make_noisy_manifest.py
+      hash: md5
+      md5: 06881b4062941de3da2cded22a5f9f9a
+      size: 2293
+    params:
+      params.yaml:
+        noise_levels:
+        - -10
+        - -5
+        - 0
+        - 5
+        - 10
+        - 15
+        - 20
+        - 25
+        - 30
+        - 35
+        noise_seed: 42
+    outs:
+    - path: data/french/manifests/noisy35.jsonl
+      hash: md5
+      md5: 4ed2a430758170e34b1d693b309f920c
+      size: 33110
+  predict@french--10:
+    cmd: python src/predict.py --lang french --input_manifest 
+      data/french/manifests/noisy-10.jsonl --output_dir data --snr_db -10
+    deps:
+    - path: data/french/manifests/noisy-10.jsonl
+      hash: md5
+      md5: 818c809e6c3c9f6a50a3f2f1f263e9fe
+      size: 33210
+    - path: src/predict.py
+      hash: md5
+      md5: e86ff2ea1cccf4a814891a20a29733e2
+      size: 2171
+    outs:
+    - path: data/french/manifests/predictions_snr-10.jsonl
+      hash: md5
+      md5: 48fea2ec5bcb8877c3d50a8ff2fd3238
+      size: 34249
+  predict@french--5:
+    cmd: python src/predict.py --lang french --input_manifest 
+      data/french/manifests/noisy-5.jsonl --output_dir data --snr_db -5
+    deps:
+    - path: data/french/manifests/noisy-5.jsonl
+      hash: md5
+      md5: 792001c57c79736c1f29a6933541073e
+      size: 33110
+    - path: src/predict.py
+      hash: md5
+      md5: e86ff2ea1cccf4a814891a20a29733e2
+      size: 2171
+    outs:
+    - path: data/french/manifests/predictions_snr-5.jsonl
+      hash: md5
+      md5: 2a2a2adad87fa265c8e3858255d33560
+      size: 39126
+  predict@french-0:
+    cmd: python src/predict.py --lang french --input_manifest 
+      data/french/manifests/noisy0.jsonl --output_dir data --snr_db 0
+    deps:
+    - path: data/french/manifests/noisy0.jsonl
+      hash: md5
+      md5: a758eed7d62fef88d5a0f89d8ae3694f
+      size: 33010
+    - path: src/predict.py
+      hash: md5
+      md5: e86ff2ea1cccf4a814891a20a29733e2
+      size: 2171
+    outs:
+    - path: data/french/manifests/predictions_snr0.jsonl
+      hash: md5
+      md5: 0b2efeb4180b21da09e06b0a05fd6ea7
+      size: 44078
+  predict@french-5:
+    cmd: python src/predict.py --lang french --input_manifest 
+      data/french/manifests/noisy5.jsonl --output_dir data --snr_db 5
+    deps:
+    - path: data/french/manifests/noisy5.jsonl
+      hash: md5
+      md5: 7e2c447ad47be9cae0e8862fc434bbc8
+      size: 33010
+    - path: src/predict.py
+      hash: md5
+      md5: e86ff2ea1cccf4a814891a20a29733e2
+      size: 2171
+    outs:
+    - path: data/french/manifests/predictions_snr5.jsonl
+      hash: md5
+      md5: ef3be711b15682b24e73d27858e0ef05
+      size: 44403
+  predict@french-10:
+    cmd: python src/predict.py --lang french --input_manifest 
+      data/french/manifests/noisy10.jsonl --output_dir data --snr_db 10
+    deps:
+    - path: data/french/manifests/noisy10.jsonl
+      hash: md5
+      md5: 41e23a664126b5ffc05caa51c9e76490
+      size: 33110
+    - path: src/predict.py
+      hash: md5
+      md5: e86ff2ea1cccf4a814891a20a29733e2
+      size: 2171
+    outs:
+    - path: data/french/manifests/predictions_snr10.jsonl
+      hash: md5
+      md5: 852e9735e4f2d2b9c59a65ed8c2bade2
+      size: 45411
+  predict@french-15:
+    cmd: python src/predict.py --lang french --input_manifest 
+      data/french/manifests/noisy15.jsonl --output_dir data --snr_db 15
+    deps:
+    - path: data/french/manifests/noisy15.jsonl
+      hash: md5
+      md5: 93a087b88541f70421d320aebd0ce398
+      size: 33110
+    - path: src/predict.py
+      hash: md5
+      md5: e86ff2ea1cccf4a814891a20a29733e2
+      size: 2171
+    outs:
+    - path: data/french/manifests/predictions_snr15.jsonl
+      hash: md5
+      md5: d9ae0a14c6d7abc5e6fa0dfd605cdbae
+      size: 46139
+  predict@french-20:
+    cmd: python src/predict.py --lang french --input_manifest 
+      data/french/manifests/noisy20.jsonl --output_dir data --snr_db 20
+    deps:
+    - path: data/french/manifests/noisy20.jsonl
+      hash: md5
+      md5: f74a54db204c559b7a01de89e5502dbf
+      size: 33110
+    - path: src/predict.py
+      hash: md5
+      md5: e86ff2ea1cccf4a814891a20a29733e2
+      size: 2171
+    outs:
+    - path: data/french/manifests/predictions_snr20.jsonl
+      hash: md5
+      md5: 608379196204263671a5a15f2edb525b
+      size: 46329
+  predict@french-25:
+    cmd: python src/predict.py --lang french --input_manifest 
+      data/french/manifests/noisy25.jsonl --output_dir data --snr_db 25
+    deps:
+    - path: data/french/manifests/noisy25.jsonl
+      hash: md5
+      md5: d5fd0c1a1084bb63300b777dd83c53e4
+      size: 33110
+    - path: src/predict.py
+      hash: md5
+      md5: e86ff2ea1cccf4a814891a20a29733e2
+      size: 2171
+    outs:
+    - path: data/french/manifests/predictions_snr25.jsonl
+      hash: md5
+      md5: d6140024b99772669dee29d0aa4e4726
+      size: 46414
+  predict@french-30:
+    cmd: python src/predict.py --lang french --input_manifest 
+      data/french/manifests/noisy30.jsonl --output_dir data --snr_db 30
+    deps:
+    - path: data/french/manifests/noisy30.jsonl
+      hash: md5
+      md5: f4a53110a7f69de0e9291599cf555b10
+      size: 33110
+    - path: src/predict.py
+      hash: md5
+      md5: e86ff2ea1cccf4a814891a20a29733e2
+      size: 2171
+    outs:
+    - path: data/french/manifests/predictions_snr30.jsonl
+      hash: md5
+      md5: 87da3d5559529825ec2d5fd9379e3a03
+      size: 46446
+  predict@french-35:
+    cmd: python src/predict.py --lang french --input_manifest 
+      data/french/manifests/noisy35.jsonl --output_dir data --snr_db 35
+    deps:
+    - path: data/french/manifests/noisy35.jsonl
+      hash: md5
+      md5: 4ed2a430758170e34b1d693b309f920c
+      size: 33110
+    - path: src/predict.py
+      hash: md5
+      md5: e86ff2ea1cccf4a814891a20a29733e2
+      size: 2171
+    outs:
+    - path: data/french/manifests/predictions_snr35.jsonl
+      hash: md5
+      md5: 81a28ee691bb0917c9f81253558ebb80
+      size: 46435
+  predict_clean@french:
+    cmd: python src/predict.py --lang french --input_manifest 
+      data/french/manifests/clean.jsonl --output_dir data
+    deps:
+    - path: data/french/manifests/clean.jsonl
+      hash: md5
+      md5: 4135cf8ce3b3857d97a7be5d79f5b77d
+      size: 32610
+    - path: src/predict.py
+      hash: md5
+      md5: e86ff2ea1cccf4a814891a20a29733e2
+      size: 2171
+    outs:
+    - path: data/french/manifests/predictions_clean.jsonl
+      hash: md5
+      md5: 9f35dc75bf752a921c5cb3f6fd9f359e
+      size: 45875
+  evaluate@french--10:
+    cmd: python src/evaluate.py --lang french --input_manifest 
+      data/french/manifests/predictions_snr-10.jsonl --output_dir data --snr_db 
+      -10
+    deps:
+    - path: data/french/manifests/predictions_snr-10.jsonl
+      hash: md5
+      md5: 48fea2ec5bcb8877c3d50a8ff2fd3238
+      size: 34249
+    - path: src/evaluate.py
+      hash: md5
+      md5: db3c40a8556fe7928e29ef3043402d48
+      size: 1515
+    outs:
+    - path: data/french/metrics/results_snr-10.jsonl
+      hash: md5
+      md5: 8f217678c4ad3580908d28d96325bc2e
+      size: 35220
+  evaluate@french--5:
+    cmd: python src/evaluate.py --lang french --input_manifest 
+      data/french/manifests/predictions_snr-5.jsonl --output_dir data --snr_db 
+      -5
+    deps:
+    - path: data/french/manifests/predictions_snr-5.jsonl
+      hash: md5
+      md5: 2a2a2adad87fa265c8e3858255d33560
+      size: 39126
+    - path: src/evaluate.py
+      hash: md5
+      md5: db3c40a8556fe7928e29ef3043402d48
+      size: 1515
+    outs:
+    - path: data/french/metrics/results_snr-5.jsonl
+      hash: md5
+      md5: 9edd849f4bd1990dd9567a31d4edde86
+      size: 40462
+  evaluate@french-0:
+    cmd: python src/evaluate.py --lang french --input_manifest 
+      data/french/manifests/predictions_snr0.jsonl --output_dir data --snr_db 0
+    deps:
+    - path: data/french/manifests/predictions_snr0.jsonl
+      hash: md5
+      md5: 0b2efeb4180b21da09e06b0a05fd6ea7
+      size: 44078
+    - path: src/evaluate.py
+      hash: md5
+      md5: db3c40a8556fe7928e29ef3043402d48
+      size: 1515
+    outs:
+    - path: data/french/metrics/results_snr0.jsonl
+      hash: md5
+      md5: 451a846a95c85e1c5e547dca81600a85
+      size: 45388
+  evaluate@french-5:
+    cmd: python src/evaluate.py --lang french --input_manifest 
+      data/french/manifests/predictions_snr5.jsonl --output_dir data --snr_db 5
+    deps:
+    - path: data/french/manifests/predictions_snr5.jsonl
+      hash: md5
+      md5: ef3be711b15682b24e73d27858e0ef05
+      size: 44403
+    - path: src/evaluate.py
+      hash: md5
+      md5: db3c40a8556fe7928e29ef3043402d48
+      size: 1515
+    outs:
+    - path: data/french/metrics/results_snr5.jsonl
+      hash: md5
+      md5: e392098f8c60548241e3db86aeede431
+      size: 45722
+  evaluate@french-10:
+    cmd: python src/evaluate.py --lang french --input_manifest 
+      data/french/manifests/predictions_snr10.jsonl --output_dir data --snr_db 
+      10
+    deps:
+    - path: data/french/manifests/predictions_snr10.jsonl
+      hash: md5
+      md5: 852e9735e4f2d2b9c59a65ed8c2bade2
+      size: 45411
+    - path: src/evaluate.py
+      hash: md5
+      md5: db3c40a8556fe7928e29ef3043402d48
+      size: 1515
+    outs:
+    - path: data/french/metrics/results_snr10.jsonl
+      hash: md5
+      md5: 70c89757b797e3aa03e994ca902ada62
+      size: 46765
+  evaluate@french-15:
+    cmd: python src/evaluate.py --lang french --input_manifest 
+      data/french/manifests/predictions_snr15.jsonl --output_dir data --snr_db 
+      15
+    deps:
+    - path: data/french/manifests/predictions_snr15.jsonl
+      hash: md5
+      md5: d9ae0a14c6d7abc5e6fa0dfd605cdbae
+      size: 46139
+    - path: src/evaluate.py
+      hash: md5
+      md5: db3c40a8556fe7928e29ef3043402d48
+      size: 1515
+    outs:
+    - path: data/french/metrics/results_snr15.jsonl
+      hash: md5
+      md5: 45d6eb12cd766a7022ca39e205e8c424
+      size: 47510
+  evaluate@french-20:
+    cmd: python src/evaluate.py --lang french --input_manifest 
+      data/french/manifests/predictions_snr20.jsonl --output_dir data --snr_db 
+      20
+    deps:
+    - path: data/french/manifests/predictions_snr20.jsonl
+      hash: md5
+      md5: 608379196204263671a5a15f2edb525b
+      size: 46329
+    - path: src/evaluate.py
+      hash: md5
+      md5: db3c40a8556fe7928e29ef3043402d48
+      size: 1515
+    outs:
+    - path: data/french/metrics/results_snr20.jsonl
+      hash: md5
+      md5: 4e0dc976ec92dbaa4f2464c055b2c54e
+      size: 47653
+  evaluate@french-25:
+    cmd: python src/evaluate.py --lang french --input_manifest 
+      data/french/manifests/predictions_snr25.jsonl --output_dir data --snr_db 
+      25
+    deps:
+    - path: data/french/manifests/predictions_snr25.jsonl
+      hash: md5
+      md5: d6140024b99772669dee29d0aa4e4726
+      size: 46414
+    - path: src/evaluate.py
+      hash: md5
+      md5: db3c40a8556fe7928e29ef3043402d48
+      size: 1515
+    outs:
+    - path: data/french/metrics/results_snr25.jsonl
+      hash: md5
+      md5: 47261c0761383fd44d8c253196fe9561
+      size: 47745
+  evaluate@french-30:
+    cmd: python src/evaluate.py --lang french --input_manifest 
+      data/french/manifests/predictions_snr30.jsonl --output_dir data --snr_db 
+      30
+    deps:
+    - path: data/french/manifests/predictions_snr30.jsonl
+      hash: md5
+      md5: 87da3d5559529825ec2d5fd9379e3a03
+      size: 46446
+    - path: src/evaluate.py
+      hash: md5
+      md5: db3c40a8556fe7928e29ef3043402d48
+      size: 1515
+    outs:
+    - path: data/french/metrics/results_snr30.jsonl
+      hash: md5
+      md5: bfcb7af750ef7afe9e17d0826b753f7f
+      size: 47797
+  evaluate@french-35:
+    cmd: python src/evaluate.py --lang french --input_manifest 
+      data/french/manifests/predictions_snr35.jsonl --output_dir data --snr_db 
+      35
+    deps:
+    - path: data/french/manifests/predictions_snr35.jsonl
+      hash: md5
+      md5: 81a28ee691bb0917c9f81253558ebb80
+      size: 46435
+    - path: src/evaluate.py
+      hash: md5
+      md5: db3c40a8556fe7928e29ef3043402d48
+      size: 1515
+    outs:
+    - path: data/french/metrics/results_snr35.jsonl
+      hash: md5
+      md5: 8a7c14344ea955edde00e30de799e8c0
+      size: 47815
+  evaluate_clean@french:
+    cmd: python src/evaluate.py --lang french --input_manifest 
+      data/french/manifests/predictions_clean.jsonl --output_dir data
+    deps:
+    - path: data/french/manifests/predictions_clean.jsonl
+      hash: md5
+      md5: 9f35dc75bf752a921c5cb3f6fd9f359e
+      size: 45875
+    - path: src/evaluate.py
+      hash: md5
+      md5: db3c40a8556fe7928e29ef3043402d48
+      size: 1515
+    outs:
+    - path: data/french/metrics/results_clean.jsonl
+      hash: md5
+      md5: 0a7ffbd5d9143eedd3024ae0a4ee2635
+      size: 47240
+  plot:
+    cmd: python src/plot.py --input_dir data --output_plot results/per_plot.png
+    deps:
+    - path: data
+      hash: md5
+      md5: 859345ebf6e4f7f1f8c831d41f42c557.dir
+      size: 267586833
+      nfiles: 587
+    - path: src/plot.py
+      hash: md5
+      md5: f6533b793f6bc04bf78ad3c35957715c
+      size: 2592
+    outs:
+    - path: results/per_plot.png
+      hash: md5
+      md5: f7bcf767b0b09e2c0df526c1f122e01b
+      size: 44975

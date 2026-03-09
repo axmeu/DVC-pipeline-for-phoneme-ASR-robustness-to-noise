@@ -8,8 +8,9 @@ import torch
 from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC
 
 
-def predict_manifest(input_manifest, output_dir, lang):
-    out_path = Path(output_dir) / lang / "manifests" / "predictions.jsonl"
+def predict_manifest(input_manifest, output_dir, lang, snr_db):
+    noise_level = f"snr{int(snr_db)}" if snr_db is not None else "clean"
+    out_path = Path(output_dir) / lang / "manifests" / f"predictions_{noise_level}.jsonl"
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
     processor = Wav2Vec2Processor.from_pretrained("facebook/wav2vec2-lv-60-espeak-cv-ft")
@@ -49,7 +50,11 @@ if __name__ == "__main__":
     parser.add_argument("--lang",           required=True)
     parser.add_argument("--input_manifest", required=True)
     parser.add_argument("--output_dir",     default="data")
+    parser.add_argument("--snr_db",         type=float, default=None)
     args = parser.parse_args()
 
-    predict_manifest(args.input_manifest, args.output_dir, args.lang)
-    # pixi run python predict.py --lang french --input_manifest data/french/manifests/clean.jsonl
+    predict_manifest(args.input_manifest, args.output_dir, args.lang, args.snr_db)
+    '''
+    pixi run python src/predict.py --lang french --input_manifest\
+    data/french/manifests/clean.jsonl
+    '''
